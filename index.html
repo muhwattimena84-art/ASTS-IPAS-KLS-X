@@ -1,0 +1,2013 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Asesmen Sumatif IPAS - SMK Waliwa Laimu</title>
+    <!-- Library untuk konversi Sertifikat HTML ke Gambar PNG -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        :root {
+            --primary-dark: #0f172a;
+            --primary: #1e3a8a;
+            --primary-light: #2563eb;
+            --accent: #059669;
+            --accent-hover: #047857;
+            --warning: #d97706;
+            --danger: #dc2626;
+            --bg-main: #f1f5f9;
+            --card-bg: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --border-color: #cbd5e1;
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
+            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            line-height: 1.5;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            background-color: var(--primary-dark);
+            color: #ffffff;
+            padding: 12px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-md);
+        }
+
+        .header-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .school-badge {
+            width: 38px;
+            height: 38px;
+            background: #ffffff;
+            color: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 13px;
+            border: 2px solid var(--accent);
+            flex-shrink: 0;
+        }
+
+        .header-title h1 {
+            font-size: 14px;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        .header-title p {
+            font-size: 11px;
+            opacity: 0.85;
+        }
+
+        .badge-offline {
+            background-color: var(--accent);
+            color: white;
+            font-size: 10px;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .container {
+            flex: 1;
+            max-width: 800px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 16px;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: var(--radius-md);
+            padding: 20px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-color);
+            margin-bottom: 16px;
+        }
+
+        .view-section {
+            display: none;
+        }
+
+        .view-section.active {
+            display: block;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 20px;
+            font-size: 15px;
+            font-weight: 600;
+            border-radius: var(--radius-sm);
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            width: 100%;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+        .btn-primary { background-color: var(--primary-light); color: white; }
+        .btn-primary:active { background-color: var(--primary); }
+        .btn-success { background-color: var(--accent); color: white; }
+        .btn-success:active { background-color: var(--accent-hover); }
+        .btn-warning { background-color: var(--warning); color: white; }
+        .btn-secondary { background-color: #e2e8f0; color: var(--text-main); }
+        .btn-danger { background-color: var(--danger); color: white; }
+        .btn-outline { background: transparent; border: 1.5px solid var(--primary-light); color: var(--primary-light); }
+
+        .btn-row {
+            display: flex;
+            gap: 10px;
+            margin-top: 16px;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: var(--text-main);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            font-size: 15px;
+            outline: none;
+            transition: border 0.2s;
+            background-color: #fff;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+        }
+
+        .exam-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #ffffff;
+            padding: 12px 16px;
+            border-radius: var(--radius-sm);
+            margin-bottom: 16px;
+            border: 1px solid var(--border-color);
+        }
+
+        .timer-box {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 700;
+            font-size: 18px;
+            color: var(--danger);
+            background: #fef2f2;
+            padding: 6px 12px;
+            border-radius: var(--radius-sm);
+            border: 1px solid #fecaca;
+        }
+
+        .question-meta {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--bg-main);
+        }
+
+        .question-num {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .question-type-tag {
+            font-size: 11px;
+            background: #e0f2fe;
+            color: #0369a1;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        .question-text {
+            font-size: 15px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            font-weight: 500;
+            white-space: pre-line;
+        }
+
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .option-item {
+            display: flex;
+            align-items: flex-start;
+            padding: 12px 14px;
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: all 0.2s;
+            background: #ffffff;
+        }
+
+        .option-item:active {
+            transform: scale(0.99);
+        }
+
+        .option-item.selected {
+            border-color: var(--primary-light);
+            background-color: #eff6ff;
+        }
+
+        .option-key {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: #e2e8f0;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 13px;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+
+        .option-item.selected .option-key {
+            background: var(--primary-light);
+            color: #ffffff;
+        }
+
+        .option-content {
+            font-size: 14px;
+            padding-top: 3px;
+            flex: 1;
+        }
+
+        .essay-textarea {
+            width: 100%;
+            min-height: 160px;
+            padding: 12px;
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            font-size: 15px;
+            resize: vertical;
+        }
+
+        .nav-grid-modal, .custom-modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(15, 23, 42, 0.7);
+            z-index: 200;
+            padding: 20px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav-grid-modal.active, .custom-modal.active {
+            display: flex;
+        }
+
+        .nav-grid-content, .custom-modal-box {
+            background: #ffffff;
+            border-radius: var(--radius-md);
+            width: 100%;
+            max-width: 500px;
+            max-height: 85vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            padding: 20px;
+        }
+
+        .nav-grid-header {
+            padding: 12px 16px;
+            background: var(--primary-dark);
+            color: #ffffff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+            margin: -20px -20px 16px -20px;
+        }
+
+        .nav-grid-body {
+            padding: 8px 0;
+            overflow-y: auto;
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+        }
+
+        .grid-num-btn {
+            aspect-ratio: 1;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border-color);
+            background: #f8fafc;
+            font-weight: 700;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .grid-num-btn.answered { background: var(--accent); color: white; border-color: var(--accent); }
+        .grid-num-btn.doubtful { background: var(--warning); color: white; border-color: var(--warning); }
+        .grid-num-btn.current { border: 3px solid var(--primary-light); font-weight: 800; }
+
+        .legend-box {
+            display: flex;
+            justify-content: space-around;
+            padding: 10px;
+            background: #f1f5f9;
+            font-size: 11px;
+            border-top: 1px solid var(--border-color);
+            margin: 16px -20px -20px -20px;
+        }
+
+        .legend-item { display: flex; align-items: center; gap: 4px; }
+        .legend-dot { width: 12px; height: 12px; border-radius: 3px; }
+
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 16px;
+            font-size: 13px;
+        }
+
+        .info-table td {
+            padding: 8px 10px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .info-table td:first-child {
+            font-weight: 600;
+            color: var(--text-muted);
+            width: 42%;
+        }
+
+        .alert {
+            padding: 12px 16px;
+            border-radius: var(--radius-sm);
+            font-size: 13px;
+            margin-bottom: 16px;
+        }
+
+        .alert-info { background: #eff6ff; color: #1e40af; border: 1px solid #bfdbfe; }
+        .alert-warning { background: #fffbeb; color: #92400e; border: 1px solid #fde68a; }
+
+        .admin-nav {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+            margin-bottom: 16px;
+        }
+
+        .admin-tab {
+            padding: 8px 14px;
+            background: #e2e8f0;
+            border-radius: var(--radius-sm);
+            white-space: nowrap;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+        }
+
+        .admin-tab.active { background: var(--primary-light); color: white; }
+
+        footer {
+            text-align: center;
+            padding: 16px;
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: auto;
+        }
+
+        .main-menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .menu-card {
+            background: #ffffff;
+            border: 1.5px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 14px 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .menu-card:hover, .menu-card:active {
+            transform: translateY(-2px);
+            border-color: var(--primary-light);
+            box-shadow: var(--shadow-md);
+            background: #f8fafc;
+        }
+
+        .menu-icon {
+            font-size: 26px;
+            line-height: 1;
+        }
+
+        .menu-title {
+            font-weight: 700;
+            font-size: 13px;
+            color: var(--primary-dark);
+        }
+
+        .menu-desc {
+            font-size: 10px;
+            color: var(--text-muted);
+        }
+
+        .certificate-box {
+            background: #ffffff;
+            border: 6px double var(--primary);
+            border-radius: var(--radius-md);
+            padding: 24px 16px;
+            text-align: center;
+            position: relative;
+            box-shadow: var(--shadow-md);
+            background-image: radial-gradient(#cbd5e1 0.75px, transparent 0.75px);
+            background-size: 12px 12px;
+            margin-bottom: 16px;
+        }
+
+        .cert-seal {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin: 0 auto 10px auto;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+        }
+
+        .cert-header h2 {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--primary-dark);
+            margin: 4px 0;
+            letter-spacing: 0.5px;
+        }
+
+        .cert-recipient {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--primary-dark);
+            margin: 10px 0 4px 0;
+            border-bottom: 2px dashed var(--primary-light);
+            display: inline-block;
+            padding: 0 16px 2px 16px;
+        }
+
+        .cert-score-badge {
+            display: inline-block;
+            background: #dcfce7;
+            color: var(--accent);
+            border: 1px solid #86efac;
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 13px;
+            margin: 10px 0;
+        }
+
+        .cert-signature-area {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-top: 24px;
+            padding-top: 16px;
+            border-top: 1px solid var(--border-color);
+            font-size: 11px;
+        }
+
+        @media print {
+            .header, .btn, .no-print, .admin-nav, footer { display: none !important; }
+            body { background: white; }
+            .container { max-width: 100%; padding: 0; }
+            .card { border: none; box-shadow: none; padding: 0; }
+            .certificate-box { border: 8px double #1e3a8a !important; padding: 30px !important; margin: 0 !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="header-brand">
+            <div class="school-badge">SMK</div>
+            <div class="header-title">
+                <h1>SMK WALIWA LAIMU</h1>
+                <p>IPAS Kelas X - Kurikulum Merdeka</p>
+            </div>
+        </div>
+        <div style="display: flex; gap: 8px; align-items: center;">
+            <span class="badge-offline">OFFLINE</span>
+            <button class="btn btn-outline" style="padding: 4px 10px; font-size: 11px; color: white; border-color: white;" onclick="openPinModal()">GURU</button>
+        </div>
+    </header>
+
+    <div class="container">
+
+        <section id="view-home" class="view-section active">
+            <div class="card" style="text-align: center;">
+                <h2 style="color: var(--primary-dark); font-size: 19px; margin-bottom: 4px;">ASESMEN SUMATIF TENGAH SEMESTER</h2>
+                <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 16px;">Mata Pelajaran: IPAS Kelas X SMK Waliwa Laimu</p>
+                
+                <div class="main-menu-grid">
+                    <button class="menu-card" onclick="navigateTo('view-identity')">
+                        <div class="menu-icon">📝</div>
+                        <div class="menu-title">Mulai Ujian</div>
+                        <div class="menu-desc">Asesmen Sumatif</div>
+                    </button>
+                    <button class="menu-card" onclick="openProfile()">
+                        <div class="menu-icon">🏫</div>
+                        <div class="menu-title">Profil IPAS</div>
+                        <div class="menu-desc">Info Sekolah & CP</div>
+                    </button>
+                    <button class="menu-card" onclick="openPinModal()">
+                        <div class="menu-icon">👨‍🏫</div>
+                        <div class="menu-title">Dashboard Guru</div>
+                        <div class="menu-desc">Panel Rekap Guru</div>
+                    </button>
+                    <button class="menu-card" onclick="openStudentHistory()">
+                        <div class="menu-icon">📊</div>
+                        <div class="menu-title">Hasil Peserta</div>
+                        <div class="menu-desc">Cek Nilai Lokal</div>
+                    </button>
+                    <button class="menu-card" onclick="openCertificateView()">
+                        <div class="menu-icon">📜</div>
+                        <div class="menu-title">Sertifikat</div>
+                        <div class="menu-desc">Unduh Sertifikat</div>
+                    </button>
+                </div>
+
+                <table class="info-table" style="text-align: left;">
+                    <tr><td>Mata Pelajaran</td><td>Projek IPAS</td></tr>
+                    <tr><td>Kelas / Tingkat</td><td>X NKPI & ABPAL</td></tr>
+                    <tr><td>Tahun Pelajaran</td><td><span id="label-tp">2026/2027</span></td></tr>
+                    <tr><td>Jumlah Soal</td><td>20 PG (HOTS) + 5 Esai (HOTS)</td></tr>
+                    <tr><td>Durasi Ujian</td><td><span id="label-durasi">90</span> Menit</td></tr>
+                    <tr><td>Mode Ujian</td><td>Offline (Tanpa Internet)</td></tr>
+                </table>
+
+                <button class="btn btn-primary" onclick="navigateTo('view-identity')" style="margin-top: 10px;">MULAI ASESMEN SUMATIF</button>
+            </div>
+        </section>
+
+        <section id="view-identity" class="view-section">
+            <div class="card">
+                <h3 style="color: var(--primary-dark); font-size: 18px; margin-bottom: 6px; text-align: center;">Identitas Peserta Ujian</h3>
+                <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 20px; text-align: center;">Lengkapi data diri Anda secara jujur dan teliti sebelum memulai ujian.</p>
+                
+                <div class="form-group">
+                    <label for="input-nama">Nama Lengkap Peserta Didik</label>
+                    <input type="text" id="input-nama" class="form-control" placeholder="Contoh: Ahmad Kasim">
+                </div>
+
+                <div class="form-group">
+                    <label for="input-kelas">Rombongan Belajar / Kelas</label>
+                    <select id="input-kelas" class="form-control">
+                        <option value="">-- Pilih Kelas --</option>
+                        <option value="X NKPI">X NKPI (Nautika Kapal Penangkap Ikan)</option>
+                        <option value="X ABPAL">X ABPAL (Agribisnis Perikanan Air Laut)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="input-nomer">Nomor Peserta / Absen</label>
+                    <input type="text" id="input-nomer" class="form-control" placeholder="Contoh: 01 / IPAS-001">
+                </div>
+
+                <div class="btn-row" style="margin-top: 24px;">
+                    <button class="btn btn-secondary" onclick="navigateTo('view-home')">Kembali</button>
+                    <button class="btn btn-primary" onclick="saveIdentity()">Lanjutkan ke Petunjuk</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="view-instructions" class="view-section">
+            <div class="card">
+                <h3 style="color: var(--primary-dark); font-size: 18px; margin-bottom: 12px; text-align: center;">Petunjuk Pelaksanaan Asesmen</h3>
+                
+                <div class="alert alert-info" style="margin-bottom: 16px;">
+                    <strong>SMK Waliwa Laimu</strong> &bull; IPAS Kelas X
+                </div>
+
+                <ul style="font-size: 13px; line-height: 1.6; color: var(--text-main); margin-bottom: 20px; padding-left: 20px; display: flex; flex-direction: column; gap: 8px;">
+                    <li>Periksa kembali data diri Anda sebelum menekan tombol Mulai.</li>
+                    <li>Soal terdiri dari 20 Pilihan Ganda dan 5 Soal Esai berbasis HOTS.</li>
+                    <li>Gunakan tombol <strong>Ragu-Ragu</strong> jika belum yakin dengan jawaban.</li>
+                    <li>Navigasi nomor soal dapat diakses melalui ikon grid di bagian bawah layar.</li>
+                    <li>Ujian berjalan penuh secara <strong>offline</strong> tanpa membutuhkan koneksi internet.</li>
+                    <li>Setelah selesai, simpan berkas jawaban <code>.json</code> untuk dikumpulkan ke Pak Kasim.</li>
+                </ul>
+
+                <div class="btn-row">
+                    <button class="btn btn-secondary" onclick="navigateTo('view-identity')">Kembali</button>
+                    <button class="btn btn-success" onclick="startExam()">MULAI KERJAKAN SOAL NOW</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="view-exam" class="view-section">
+            <div class="exam-header">
+                <div>
+                    <div id="exam-student-name" style="font-weight: 700; font-size: 14px; color: var(--primary-dark);">-</div>
+                    <div id="exam-student-class" style="font-size: 11px; color: var(--text-muted);">-</div>
+                </div>
+                <div class="timer-box">
+                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    <span id="exam-timer">90:00</span>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="question-meta">
+                    <span class="question-num" id="q-number-title">Soal No. 1</span>
+                    <span class="question-type-tag" id="q-type-tag">Pilihan Ganda</span>
+                </div>
+
+                <div class="question-text" id="q-text">Loading soal...</div>
+
+                <!-- PG Options -->
+                <div id="container-pg" class="options-list"></div>
+
+                <!-- Essay Input -->
+                <div id="container-essay" style="display: none;">
+                    <textarea id="essay-answer-input" class="essay-textarea" placeholder="Tuliskan jawaban esai lengkap Anda di sini..." oninput="saveEssayAnswer(this.value)"></textarea>
+                </div>
+
+                <div class="btn-row" style="margin-top: 20px;">
+                    <button id="btn-doubt" class="btn btn-warning" style="width: auto; padding: 8px 14px; font-size: 12px;" onclick="toggleDoubt()">Ragu-Ragu</button>
+                    <button class="btn btn-outline" style="width: auto; padding: 8px 14px; font-size: 12px;" onclick="openNavGrid()">Daftar Soal (<span id="answered-count">0</span>/25)</button>
+                </div>
+
+                <div class="btn-row" style="margin-top: 16px;">
+                    <button id="btn-prev" class="btn btn-secondary" onclick="prevQuestion()">Sebelumnya</button>
+                    <button id="btn-next" class="btn btn-primary" onclick="nextQuestion()">Selanjutnya</button>
+                </div>
+
+                <div style="margin-top: 16px;">
+                    <button class="btn btn-success" onclick="openConfirmSubmit()">SELESAI & KUMPULKAN UJIAN</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="view-confirm" class="view-section">
+            <div class="card" style="text-align: center;">
+                <h3 style="color: var(--primary-dark); font-size: 18px; margin-bottom: 8px;">Konfirmasi Pengumpulan Ujian</h3>
+                <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 16px;">Pastikan seluruh soal telah dijawab dengan benar sebelum mengakhiri ujian.</p>
+
+                <div style="background: #f8fafc; padding: 16px; border-radius: var(--radius-sm); border: 1px solid var(--border-color); margin-bottom: 16px; text-align: left;">
+                    <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #e2e8f0;">
+                        <span>Soal Dijawab:</span>
+                        <strong style="color: var(--accent);"><span id="summary-answered">0</span> Soal</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #e2e8f0;">
+                        <span>Soal Ragu-Ragu:</span>
+                        <strong style="color: var(--warning);"><span id="summary-doubtful">0</span> Soal</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; padding: 8px 0;">
+                        <span>Soal Belum Dijawab:</span>
+                        <strong style="color: var(--danger);"><span id="summary-unanswered">0</span> Soal</strong>
+                    </div>
+                </div>
+
+                <div id="alert-unanswered-warning" class="alert alert-warning" style="display: none; text-align: left;">
+                    <strong>Peringatan:</strong> Masih terdapat soal yang belum Anda jawab. Anda dapat kembali untuk melengkapi jawaban.
+                </div>
+
+                <div class="btn-row">
+                    <button class="btn btn-secondary" onclick="navigateTo('view-exam')">Kembali ke Soal</button>
+                    <button class="btn btn-success" onclick="submitExamFinal()">YA, KUMPULKAN SEKARANG</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="view-result" class="view-section">
+            <div class="card" style="text-align: center;">
+                <div style="width: 56px; height: 56px; background: #dcfce7; color: var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px auto;">
+                    <svg width="30" height="30" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <h2 style="color: var(--primary-dark); font-size: 19px;">Ujian Berhasil Diselesaikan!</h2>
+                <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 16px;">Jawaban Anda telah tersimpan secara lokal pada HP ini.</p>
+
+                <div id="score-display-box" style="background: #f8fafc; padding: 16px; border-radius: var(--radius-sm); border: 1px solid var(--border-color); margin-bottom: 16px;">
+                    <!-- Auto-filled by JS based on Guru Setting -->
+                </div>
+
+                <table class="info-table" style="text-align: left;">
+                    <tr><td>Nama Peserta</td><td id="res-nama">-</td></tr>
+                    <tr><td>Kelas / Nomor</td><td id="res-kelas-no">-</td></tr>
+                    <tr><td>Waktu Pengumpulan</td><td id="res-waktu">-</td></tr>
+                    <tr><td>Status Koreksi Esai</td><td>Menunggu Pemeriksaan Guru</td></tr>
+                </table>
+
+                <div class="alert alert-info" style="text-align: left;">
+                    <strong>Langkah Terakhir:</strong> Klik tombol <strong>"Unduh Berkas Hasil (.json)"</strong> di bawah ini, lalu serahkan file tersebut ke Pak Kasim (via Bluetooth/WhatsApp/OTG). Anda juga dapat mencetak Sertifikat Kelulusan.
+                </div>
+
+                <div class="btn-row">
+                    <button class="btn btn-success" onclick="downloadResultFile()">UNDUH BERKAS HASIL (.JSON)</button>
+                    <button class="btn btn-primary" onclick="openCertificateView()">LIHAT SERTIFIKAT</button>
+                    <button class="btn btn-outline" onclick="window.print()">CETAK BUKTI HASIL</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="view-profile" class="view-section">
+            <div class="card">
+                <div style="text-align: center; margin-bottom: 16px;">
+                    <div class="school-badge" style="width: 50px; height: 50px; font-size: 16px; margin: 0 auto 8px auto;">SMK</div>
+                    <h3 style="color: var(--primary-dark); font-size: 18px;">PROFIL MATA PELAJARAN IPAS</h3>
+                    <p style="font-size: 12px; color: var(--text-muted);">SMK Waliwa Laimu - Kurikulum Merdeka</p>
+                </div>
+
+                <table class="info-table">
+                    <tr><td>Satuan Pendidikan</td><td>SMK Waliwa Laimu</td></tr>
+                    <tr><td>Mata Pelajaran</td><td>Projek Ilmu Pengetahuan Alam dan Sosial (IPAS)</td></tr>
+                    <tr><td>Tingkat / Fase</td><td>Kelas X / Fase E</td></tr>
+                    <tr><td>Program Keahlian</td><td>NKPI (Nautika Kapal Penangkap Ikan) & ABPAL (Agribisnis Perikanan Air Laut)</td></tr>
+                    <tr><td>Guru Pengampu</td><td>Muh. Kasim Wattimena, S.Pd.</td></tr>
+                    <tr><td>Tahun Pelajaran</td><td>2026/2027</td></tr>
+                </table>
+
+                <h4 style="font-size: 14px; color: var(--primary); margin-top: 16px; margin-bottom: 8px;">Capaian Pembelajaran (CP) IPAS:</h4>
+                <ul style="font-size: 12px; color: var(--text-main); padding-left: 18px; margin-bottom: 16px; display: flex; flex-direction: column; gap: 6px;">
+                    <li><strong>Menjelaskan Fenomena Secara Ilmiah:</strong> Menganalisis sifat bahan bakar hidrokarbon & pengukuran dalam dunia maritim.</li>
+                    <li><strong>Mendesain & Evaluasi Penyelidikan Ilmiah:</strong> Menerapkan konsep variabel dan ketelitian alat ukur (Jangka Sorong, Mikrometer Sekrup).</li>
+                    <li><strong>Menerjemahkan Data & Bukti Ilmiah:</strong> Mengolah data eksperimen dan dampak emisi lingkungan perairan Laimu.</li>
+                </ul>
+
+                <button class="btn btn-secondary" onclick="navigateTo('view-home')">Kembali ke Beranda</button>
+            </div>
+        </section>
+
+        <section id="view-student-history" class="view-section">
+            <div class="card">
+                <h3 style="color: var(--primary-dark); margin-bottom: 12px; font-size: 17px;">Riwayat Hasil Peserta Didik</h3>
+                <div id="student-history-content">
+                    <!-- Populated dynamically -->
+                </div>
+                <div class="btn-row" style="margin-top: 16px;">
+                    <button class="btn btn-secondary" onclick="navigateTo('view-home')">Kembali ke Beranda</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="view-certificate" class="view-section">
+            <div class="card">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;" class="no-print">
+                    <h3 style="color: var(--primary-dark); font-size: 16px;">Sertifikat Asesmen IPAS</h3>
+                    <button class="btn btn-outline" style="width: auto; padding: 4px 10px; font-size: 12px;" onclick="navigateTo('view-home')">Kembali</button>
+                </div>
+
+                <div id="certificate-wrapper">
+                    <!-- Dynamic Certificate HTML -->
+                </div>
+
+                <div class="btn-row no-print" style="margin-top: 16px;">
+                    <button class="btn btn-primary" onclick="downloadCertificateImage()">UNDUH SERTIFIKAT (GAMBAR PNG)</button>
+                    <button class="btn btn-success" onclick="window.print()">CETAK / UNDUH SERTIFIKAT (PDF)</button>
+                    <button class="btn btn-outline" onclick="downloadResultFile()">UNDUH BERKAS JAWABAN (.JSON)</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="view-admin" class="view-section">
+            <div class="card">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                    <h3 style="color: var(--primary-dark); font-size: 16px;">Panel Kontrol Guru (Pak Kasim)</h3>
+                    <button class="btn btn-secondary" style="width: auto; padding: 6px 12px; font-size: 12px;" onclick="navigateTo('view-home')">Keluar Panel</button>
+                </div>
+
+                <div class="admin-nav">
+                    <button class="admin-tab active" onclick="switchAdminTab('tab-settings', this)">Pengaturan Ujian</button>
+                    <button class="admin-tab" onclick="switchAdminTab('tab-recap', this)">Rekap & Impor Hasil</button>
+                    <button class="admin-tab" onclick="switchAdminTab('tab-grading', this)">Koreksi Esai</button>
+                    <button class="admin-tab" onclick="switchAdminTab('tab-guide', this)">Panduan Guru</button>
+                </div>
+
+                <!-- Admin Tab 1: Settings -->
+                <div id="tab-settings" class="admin-subtab">
+                    <h4 style="margin-bottom: 12px; font-size: 14px;">Pengaturan Parameter Ujian</h4>
+                    <div class="form-group">
+                        <label>Durasi Ujian (Menit)</label>
+                        <input type="number" id="setting-durasi" class="form-control" value="90">
+                    </div>
+                    <div class="form-group">
+                        <label>Tampilkan Nilai PG Langsung ke Siswa?</label>
+                        <select id="setting-show-score" class="form-control">
+                            <option value="true">Ya, Tampilkan Nilai PG</option>
+                            <option value="false">Sembunyikan Nilai Sampai Selesai Koreksi</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Bobot Nilai Pilihan Ganda (%)</label>
+                        <input type="number" id="setting-bobot-pg" class="form-control" value="70">
+                    </div>
+                    <div class="form-group">
+                        <label>Bobot Nilai Esai (%)</label>
+                        <input type="number" id="setting-bobot-essay" class="form-control" value="30">
+                    </div>
+                    <button class="btn btn-primary" onclick="saveAdminSettings()">Simpan Pengaturan</button>
+                </div>
+
+                <!-- Admin Tab 2: Student File Import & Master Recap -->
+                <div id="tab-recap" class="admin-subtab" style="display: none;">
+                    <h4 style="margin-bottom: 8px; font-size: 14px;">Impor Berkas Jawaban Siswa (.JSON)</h4>
+                    <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 12px;">Pilih berkas .json yang dikumpulkan siswa untuk dimasukkan ke rekap lokal guru.</p>
+                    <input type="file" id="input-file-import" accept=".json" multiple class="form-control" style="margin-bottom: 12px;">
+                    <button class="btn btn-success" onclick="importStudentFiles()">Proses Impor Berkas</button>
+
+                    <h4 style="margin-top: 20px; margin-bottom: 10px; font-size: 14px;">Daftar Rekap Nilai Master Guru</h4>
+                    <div style="overflow-x: auto;">
+                        <table class="info-table" id="table-recap" style="font-size: 12px;">
+                            <thead>
+                                <tr style="background: #f1f5f9;">
+                                    <th>Nama</th>
+                                    <th>Kelas</th>
+                                    <th>PG True</th>
+                                    <th>Nilai PG</th>
+                                    <th>Esai</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbody-recap">
+                                <tr><td colspan="6" style="text-align: center;">Belum ada data siswa diimpor.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <button class="btn btn-outline" style="margin-top: 12px;" onclick="exportMasterRecapCSV()">Ekspor Rekap Master (CSV)</button>
+                </div>
+
+                <!-- Admin Tab 3: Essay Grading -->
+                <div id="tab-grading" class="admin-subtab" style="display: none;">
+                    <h4 style="margin-bottom: 12px; font-size: 14px;">Pemeriksaan & Penskoran Esai Manual</h4>
+                    <div class="form-group">
+                        <label>Pilih Siswa untuk Dikoreksi</label>
+                        <select id="select-grading-student" class="form-control" onchange="loadStudentEssayForGrading()">
+                            <option value="">-- Pilih Siswa --</option>
+                        </select>
+                    </div>
+                    <div id="grading-workspace" style="display: none;">
+                        <!-- Filled dynamically -->
+                    </div>
+                </div>
+
+                <!-- Admin Tab 4: User Manual Guides -->
+                <div id="tab-guide" class="admin-subtab" style="display: none;">
+                    <h4 style="margin-bottom: 8px; color: var(--primary);">Panduan Pengoperasian Offline</h4>
+                    <div style="font-size: 12px; line-height: 1.6; display: flex; flex-direction: column; gap: 10px;">
+                        <div style="background: #f8fafc; padding: 10px; border-radius: 6px; border-left: 4px solid var(--primary-light);">
+                            <strong>1. Pelaksanaan Ujian Tanpa Internet:</strong>
+                            <p>Buka file <code>index.html</code> pada browser HP siswa (Chrome/Safari). Tidak memerlukan jaringan atau kuota internet.</p>
+                        </div>
+                        <div style="background: #f8fafc; padding: 10px; border-radius: 6px; border-left: 4px solid var(--accent);">
+                            <strong>2. Pengumpulan Hasil:</strong>
+                            <p>Siswa mengunduh file <code>.json</code> setelah selesai, lalu menyerahkan file tersebut via Bluetooth/WhatsApp/OTG ke Guru.</p>
+                        </div>
+                        <div style="background: #f8fafc; padding: 10px; border-radius: 6px; border-left: 4px solid var(--warning);">
+                            <strong>3. Pengolahan Nilai oleh Guru:</strong>
+                            <p>Buka Panel Guru -> Tab "Rekap & Impor Hasil" -> Pilih semua file .json -> Klik "Proses Impor". Lakukan koreksi esai lalu ekspor rekap ke CSV.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Navigation Modal -->
+    <div id="modal-nav-grid" class="nav-grid-modal">
+        <div class="nav-grid-content">
+            <div class="nav-grid-header">
+                <span style="font-weight: 700;">Navigasi Nomor Soal</span>
+                <button onclick="closeNavGrid()" style="background: transparent; border: none; color: white; font-size: 20px; cursor: pointer;">&times;</button>
+            </div>
+            <div class="nav-grid-body" id="grid-buttons-container"></div>
+            <div class="legend-box">
+                <div class="legend-item"><div class="legend-dot" style="background: var(--accent);"></div> Dijawab</div>
+                <div class="legend-item"><div class="legend-dot" style="background: var(--warning);"></div> Ragu-Ragu</div>
+                <div class="legend-item"><div class="legend-dot" style="background: #cbd5e1;"></div> Belum</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom Alert Modal -->
+    <div id="custom-alert-modal" class="custom-modal">
+        <div class="custom-modal-box">
+            <h4 id="custom-alert-title" style="color: var(--primary-dark); margin-bottom: 8px;">Pemberitahuan</h4>
+            <p id="custom-alert-msg" style="font-size: 14px; margin-bottom: 16px;"></p>
+            <button class="btn btn-primary" onclick="closeCustomAlert()">OK</button>
+        </div>
+    </div>
+
+    <!-- Custom PIN Modal -->
+    <div id="custom-pin-modal" class="custom-modal">
+        <div class="custom-modal-box">
+            <h4 style="color: var(--primary-dark); margin-bottom: 8px;">Akses Panel Guru</h4>
+            <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 12px;">Masukkan PIN Guru Pengampu (Pak Kasim):</p>
+            <input type="password" id="custom-pin-input" class="form-control" placeholder="Masukkan PIN..." style="margin-bottom: 12px;">
+            <div class="btn-row">
+                <button class="btn btn-secondary" onclick="closePinModal()">Batal</button>
+                <button class="btn btn-primary" onclick="submitPinModal()">Masuk</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        Web Asesmen Sumatif IPAS &copy; 2026 - SMK Waliwa Laimu<br>
+        Pengembang: Muh. Kasim Wattimena, S.Pd.
+    </footer>
+
+    <script>
+        const DEFAULT_QUESTIONS = [
+            // 20 SOAL PILIHAN GANDA HOTS / LITERASI
+            {
+                id: 1,
+                type: "pg",
+                text: "Siswa jurusan X. NKPI di SMK Waliwa Laimu mengukur diameter dalam silinder liner mesin kapal tempel menggunakan jangka sorong. Hasil pembacaan menunjukkan skala utama pada angka 5,4 cm dan garis skala nonius ke-6 berimpit dengan skala utama. Jika ketelitian jangka sorong adalah 0,01 cm, nilai pengukuran, jenis besaran, dan satuan SI yang benar adalah...",
+                options: [
+                    "A. 5,46 cm; Besaran Pokok (Panjang); Satuan SI Meter",
+                    "B. 5,46 cm; Besaran Turunan (Luas); Satuan SI Centimeter",
+                    "C. 5,40 cm; Besaran Pokok (Panjang); Satuan SI Centimeter",
+                    "D. 6,00 cm; Besaran Turunan (Volume); Satuan SI Meter",
+                    "E. 5,64 cm; Besaran Pokok (Massa); Satuan SI Kilogram"
+                ],
+                keys: "A",
+                discussion: "Hasil ukur = 5,4 + (6 x 0,01) = 5,46 cm. Diameter tergolong besaran pokok (Panjang) dengan satuan Standar Internasional (SI) meter."
+            },
+            {
+                id: 2,
+                type: "pg",
+                text: "Kelompok siswa X. ABPAL menguji tingkat korosi logam baling-baling kapal pada 3 jenis sampel air: air tawar, air payau, dan air laut Laimu. Setiap sampel direndam selama 7 hari dengan volume air dan luas permukaan logam yang sama. Berat karat yang terbentuk diukur setiap hari. Berdasarkan eksperimen metode ilmiah ini, variabel bebas dan variabel terikat secara berurutan adalah...",
+                options: [
+                    "A. Berat karat yang terbentuk dan jenis sampel air",
+                    "B. Jenis sampel air dan berat karat yang terbentuk",
+                    "C. Lama perendaman dan luas permukaan logam",
+                    "D. Volume air dan jenis sampel air",
+                    "E. Luas permukaan logam dan berat karat yang terbentuk"
+                ],
+                keys: "B",
+                discussion: "Variabel bebas adalah perlakuan yang diubah-ubah (jenis sampel air). Variabel terikat adalah hasil yang diukur (berat karat)."
+            },
+            {
+                id: 3,
+                type: "pg",
+                text: "Untuk mendeteksi adanya pemalsuan solar perikanan yang dicampur air, nelayan Laimu mengukur massa jenis solar. Massa solar diukur menggunakan neraca teknis sebesar 800 gram dan volumenya diukur dengan gelas ukur sebesar 1.000 mL (Massa jenis = Massa / Volume). Pernyataan yang BENAR mengenai massa jenis berdasarkan pengukuran tersebut adalah...",
+                options: [
+                    "A. Massa jenis tergolong besaran pokok dengan nilai 0,8 kg/m3",
+                    "B. Massa jenis tergolong besaran turunan yang diturunkan dari besaran pokok massa dan panjang",
+                    "C. Massa jenis tergolong besaran pokok yang diturunkan dari massa dan volume",
+                    "D. Massa jenis tergolong besaran turunan yang diturunkan dari besaran pokok suhu dan waktu",
+                    "E. Massa jenis merupakan besaran tak berdimensi karena hasil bagi dua besaran pokok"
+                ],
+                keys: "B",
+                discussion: "Massa jenis (rho = m/V) tergolong besaran turunan. Satuan kg/m3 diturunkan dari besaran pokok massa (kg) dan panjang (m, dari volume m3)."
+            },
+            {
+                id: 4,
+                type: "pg",
+                text: "Senyawa n-oktana (rantai lurus) dan 2,2,4-trimetilpentana/isooktana (rantai bercabang) sama-sama memiliki rumus molekul C8H18. Namun, isooktana memiliki angka oktan 100 sedangkan n-oktana memiliki angka oktan 0. Alasan struktur kimia bercabang lebih disukai pada bahan bakar mesin kapal adalah...",
+                options: [
+                    "A. Rantai bercabang lebih cepat membusuk sehingga tidak mencemari laut",
+                    "B. Rantai bercabang terbakar lebih terkontrol sehingga mencegah knocking (ketukan prematur) pada mesin",
+                    "C. Rantai bercabang menghasilkan emisi gas SO2 yang lebih sedikit",
+                    "D. Rantai bercabang memiliki titik didih jauh lebih tinggi dibanding n-oktana",
+                    "E. Rantai bercabang tidak membutuhkan oksigen saat proses pembakaran"
+                ],
+                keys: "B",
+                discussion: "Struktur hidrokarbon bercabang (seperti isooktana) memiliki ketahanan kompresi tinggi sehingga tidak mudah meledak sendiri (mencegah knocking)."
+            },
+            {
+                id: 5,
+                type: "pg",
+                text: "Perhatikan data hasil distilasi bertingkat minyak bumi mentah (crude oil) berikut:\n- Fraksi A (Titik didih <20°C, 1-4 atom C)\n- Fraksi B (Titik didih 30-200°C, 5-12 atom C)\n- Fraksi C (Titik didih 175-275°C, 12-15 atom C)\n- Fraksi D (Titik didih 250-400°C, 15-18 atom C)\nFraksi manakah yang paling tepat digunakan sebagai bahan bakar mesin diesel kapal penangkap ikan nelayan Laimu?",
+                options: [
+                    "A. Fraksi A (Gas cair LPG)",
+                    "B. Fraksi B (Bensin / Gasolin)",
+                    "C. Fraksi C (Kerosin / Avtur)",
+                    "D. Fraksi D (Minyak Solar / Diesel)",
+                    "E. Residu (Aspal dan Lilin)"
+                ],
+                keys: "D",
+                discussion: "Minyak solar/diesel untuk mesin kapal dihasilkan pada fraksi D (rantai karbon C15-C18 dengan titik didih 250-400°C)."
+            },
+            {
+                id: 6,
+                type: "pg",
+                text: "Seorang mekanik di bengkel SMK Waliwa Laimu mengukur ketebalan ring piston dengan mikrometer sekrup. Pada skala utama tertera angka 3,5 mm dan skala putar (thimble) menunjukkan angka 24. Jika tingkat ketelitian alat adalah 0,01 mm, hasil pengukuran ketebalan ring piston tersebut adalah...",
+                options: [
+                    "A. 3,74 mm",
+                    "B. 3,24 mm",
+                    "C. 3,524 mm",
+                    "D. 5,90 mm",
+                    "E. 3,26 mm"
+                ],
+                keys: "A",
+                discussion: "Skala Utama = 3,5 mm. Skala Nonius/Putar = 24 x 0,01 = 0,24 mm. Hasil total = 3,5 + 0,24 = 3,74 mm."
+            },
+            {
+                id: 7,
+                type: "pg",
+                text: "Seorang siswa X. NKPI mengukur debit aliran bahan bakar masuk ke mesin kapal. Ia mengukur volume solar (V) secara langsung menggunakan gelas ukur, dan mengukur waktu mengalir (t) menggunakan stopwatch, lalu membagi volume dengan waktu (Q = V/t). Metode penentuan debit aliran bahan bakar ini merupakan contoh...",
+                options: [
+                    "A. Pengukuran langsung menggunakan alat ukur tunggal",
+                    "B. Pengukuran tidak langsung karena nilai debit diperoleh dari kalkulasi rasio dua besaran berbeda",
+                    "C. Pengukuran tidak baku karena menggunakan gelas kimia biasa",
+                    "D. Pengukuran tak terbilang karena melibatkan cairan solar",
+                    "E. Pengukuran tak presisi akibat variasi suhu ruangan"
+                ],
+                keys: "B",
+                discussion: "Pengukuran tidak langsung dilakukan dengan mengukur besaran lain terlebih dahulu (V dan t), lalu dihitung menggunakan rumus fisika/matematika."
+            },
+            {
+                id: 8,
+                type: "pg",
+                text: "Cerobong asap perahu motor saat berlayar di laut Laimu mengeluarkan asap hitam pekat yang mengandung gas Karbon Monoksida (CO). Analisis kimia yang menjelaskan fenomena berbahaya ini adalah...",
+                options: [
+                    "A. Terjadi pembakaran sempurna hidrokarbon yang menghasilkan lebih banyak gas O2",
+                    "B. Terjadi pembakaran tidak sempurna akibat kurangnya pasokan oksigen (O2) pada ruang bakar mesin",
+                    "C. Bahan bakar bercampur dengan garam laut sehingga membebaskan gas klorin",
+                    "D. Gas CO diproduksi dari reaksi sintesis CO2 dengan nitrogen atmosfer",
+                    "E. Mesin kapal menyerap CO dari udara laut dan mengeluarkannya kembali"
+                ],
+                keys: "B",
+                discussion: "Pembakaran tidak sempurna (akibat keterbatasan oksigen) membebaskan gas beracun Karbon Monoksida (CO) dan jelaga karbon (C)."
+            },
+            {
+                id: 9,
+                type: "pg",
+                text: "Nelayan Desa Laimu mengeluhkan bahwa mesin perahu mereka sering macet setelah menggunakan drum penyimpanan bahan bakar yang baru. Langkah awal yang HARUS dilakukan seorang teknisi SMK Waliwa Laimu dengan pendekatan metode ilmiah adalah...",
+                options: [
+                    "A. Langsung mengganti seluruh mesin perahu nelayan dengan mesin baru",
+                    "B. Mengamati fenomena, mengidentifikasi masalah, dan mengumpulkan informasi awal kondisi solar di drum",
+                    "C. Membuat kesimpulan akhir bahwa solar tersebut palsu tanpa menguji sampel",
+                    "D. Menjual kembali drum penyimpanan bahan bakar ke pasar lokal",
+                    "E. Merumuskan teori baru tentang hidrokarbon tanpa melalui eksperimen"
+                ],
+                keys: "B",
+                discussion: "Metode ilmiah selalu diawali dengan pengamatan fenomena (observasi) dan perumusan masalah secara objektif."
+            },
+            {
+                id: 10,
+                type: "pg",
+                text: "Pasangan besaran pokok, alat ukur yang sesuai, dan satuan SI yang BENAR dalam konteks pengujian laboratorium IPAS adalah...",
+                options: [
+                    "A. Suhu - Termometer - Celsius (°C)",
+                    "B. Kuat Arus Listrik - Ampermeter - Ampere (A)",
+                    "C. Massa - Neraca Ohaus - Gram (g)",
+                    "D. Waktu - Jam Pasir - Menit (min)",
+                    "E. Panjang - Mikrometer Sekrup - Millimeter (mm)"
+                ],
+                keys: "B",
+                discussion: "Kuat arus listrik adalah besaran pokok dengan alat ukur Ampermeter dan satuan SI Ampere (A). (Suhu SI = Kelvin; Massa SI = kg; Waktu SI = detik; Panjang SI = meter)."
+            },
+            {
+                id: 11,
+                type: "pg",
+                text: "Minyak bumi mentah (crude oil) yang ditambang dari laut berasal dari pelapukan fosil mikroorganisme maritim jutaan tahun lalu. Komponen senyawa kimia terbesar dalam minyak bumi adalah...",
+                options: [
+                    "A. Senyawa karbohidrat dan protein kompleks",
+                    "B. Campuran hidrokarbon alkana, sikloalkana, dan aromatik",
+                    "C. Senyawa asam anorganik dan garam klorida",
+                    "D. Gas Oksigen murni dan Hidrogen bebas",
+                    "E. Polimer plastik sintetis murni"
+                ],
+                keys: "B",
+                discussion: "Minyak bumi terutama terdiri dari campuran kompleks hidrokarbon (sekitar 90-98%), dominan alkana dan sikloalkana."
+            },
+            {
+                id: 12,
+                type: "pg",
+                text: "Pemerintah menerapkan program Biodiesel B35 (35% FAME Minyak Sawit + 65% Solar Fosil) untuk armada kapal perikanan. Ditinjau dari aspek daur karbon dan lingkungan perairan Laimu, keunggulan utama B35 dibanding 100% solar murni adalah...",
+                options: [
+                    "A. B35 tidak menghasilkan gas emisi sama sekali saat dibakar",
+                    "B. Komponen FAME berasal dari bahan terbarukan sehingga emisi CO2 tergolong netral karbon (carbon neutral)",
+                    "C. B35 membuat suhu mesin kapal menjadi lebih dingin dari suhu air laut",
+                    "D. B35 dapat larut sempurna dalam air laut tanpa meninggalkan tumpahan",
+                    "E. B35 meningkatkan daya mesin kapal hingga 500%"
+                ],
+                keys: "B",
+                discussion: "Biofuel FAME menyerap CO2 dari atmosfer saat tanaman sawit tumbuh, sehingga emisi yang dilepas saat dibakar kembali diserap dalam daur karbon netral."
+            },
+            {
+                id: 13,
+                type: "pg",
+                text: "Sebuah kapal penangkap ikan SMK Waliwa Laimu menempuh jarak (s) 18 kilometer dalam waktu (t) 0,5 jam. Kecepatan rata-rata kapal tersebut jika dinyatakan dalam satuan Standar Internasional (SI) adalah...",
+                options: [
+                    "A. 36 km/jam",
+                    "B. 10 m/s",
+                    "C. 18 m/s",
+                    "D. 5 m/s",
+                    "E. 360 m/s"
+                ],
+                keys: "B",
+                discussion: "Jarak s = 18.000 m, waktu t = 0,5 x 3.600 s = 1.800 s. Kecepatan (m/s) = 18.000 / 1.800 = 10 m/s."
+            },
+            {
+                id: 14,
+                type: "pg",
+                text: "Kebutuhan bahan bakar bensin bernilai oktan tinggi untuk mesin tempel modern melampaui jumlah hasil distilasi langsung. Untuk mengatasi hal ini, kilang memotong rantai hidrokarbon berat (solar/kerosin) menjadi rantai pendek bensin. Reaksi kimia tersebut dinamakan...",
+                options: [
+                    "A. Kristalisasi",
+                    "B. Cracking (Perekahan)",
+                    "C. Polimerisasi",
+                    "D. Eutrofikasi",
+                    "E. Sedimentasi"
+                ],
+                keys: "B",
+                discussion: "Cracking (perekahan) adalah proses memutus rantai hidrokarbon panjang menjadi molekul-molekul hidrokarbon bernilai tinggi berantai pendek."
+            },
+            {
+                id: 15,
+                type: "pg",
+                text: "Pada pengujian pemanasan sampel fraksi hidrokarbon di laboratorium IPAS, diperoleh data: suhu 40-70°C menguap petroleum eter, suhu 70-140°C menguap bensin, dan suhu 140-180°C menguap nafta. Kesimpulan ilmiah yang tepat dari data tersebut adalah...",
+                options: [
+                    "A. Makin panjang rantai karbon hidrokarbon, makin rendah titik didihnya",
+                    "B. Makin tinggi suhu pemanasan, fraksi yang menguap memiliki rantai karbon yang semakin panjang",
+                    "C. Seluruh fraksi hidrokarbon menguap pada suhu yang sama yaitu 100°C",
+                    "D. Bensin memiliki titik didih paling tinggi di antara semua fraksi minyak bumi",
+                    "E. Nafta menguap paling awal karena memiliki rantai karbon paling pendek"
+                ],
+                keys: "B",
+                discussion: "Titik didih hidrokarbon berbanding lurus dengan panjang rantai karbon (jumlah atom C). Suhu lebih tinggi memisahkan fraksi berantai C lebih panjang."
+            },
+            {
+                id: 16,
+                type: "pg",
+                text: "Seorang siswa membandingkan tiga alat ukur panjang: Mistar baja (ketelitian 1 mm), Jangka Sorong (ketelitian 0,1 mm), dan Mikrometer Sekrup (ketelitian 0,01 mm). Jika siswa ingin mengukur diameter kawat tembaga generator kapal bernilai 0,85 mm, alat ukur yang WAJIB digunakan adalah...",
+                options: [
+                    "A. Mistar baja, karena paling panjang dan mudah dibaca",
+                    "B. Jangka Sorong, karena dapat mengukur hingga ketelitian 0,001 mm",
+                    "C. Mikrometer Sekrup, karena memiliki tingkat ketelitian 0,01 mm sehingga mampu membaca skala 0,85 mm dengan akurat",
+                    "D. Meteran pita, karena fleksibel untuk melilit kawat",
+                    "E. Penggaris plastik, karena isolator listrik yang aman"
+                ],
+                keys: "C",
+                discussion: "Mikrometer sekrup memiliki tingkat ketelitian paling halus (0,01 mm), sangat presisi untuk mengukur benda tipis seperti kawat 0,85 mm."
+            },
+            {
+                id: 17,
+                type: "pg",
+                text: "Bahan bakar gas LPG mengandung senyawa Propana (C3H8) dan Butana (C4H10). Berdasarkan rumus umumnya (CnH2n+2), kedua senyawa hidrokarbon ini tergolong dalam kelompok...",
+                options: [
+                    "A. Alkana (Hidrokarbon jenuh rantai tunggal)",
+                    "B. Alkena (Hidrokarbon tak jenuh ikatan rangkap dua)",
+                    "C. Alkuna (Hidrokarbon tak jenuh ikatan rangkap tiga)",
+                    "D. Senyawa Aromatik Benzena",
+                    "E. Senyawa Alkohol rantai panjang"
+                ],
+                keys: "A",
+                discussion: "Rumus umum CnH2n+2 adalah rumus untuk kelompok hidrokarbon jenuh Alkana."
+            },
+            {
+                id: 18,
+                type: "pg",
+                text: "Pembakaran solar berkadar sulfur tinggi pada mesin diesel perahu membebaskan gas Sulfur Dioksida (SO2). Di atmosfer, gas ini bereaksi dengan uap air (H2O) membentuk asam sulfat (H2SO4) yang turun bersama hujan. Dampak ekologis fenomena ini bagi perairan Laimu adalah...",
+                options: [
+                    "A. Menurunkan pH air laut sehingga merusak terumbu karang dan cangkang biota laut",
+                    "B. Meningkatkan jumlah populasi ikan secara drastis",
+                    "C. Menjadikan air laut terasa tawar dan steril",
+                    "D. Mempercepat pertumbuhan eceng gondok di tengah samudra",
+                    "E. Mencegah terjadinya abrasi pantai Laimu"
+                ],
+                keys: "A",
+                discussion: "Hujan asam memicu pengasaman laut (ocean acidification) yang mengikis kalsium karbonat pada terumbu karang dan cangkang biota laut."
+            },
+            {
+                id: 19,
+                type: "pg",
+                text: "Luas alas palka penyimpanan es di kapal perikanan diperoleh dari perkalian panjang (10 m) dan lebar (4 m), yaitu 40 m2. Satuan pembentuk besaran turunan Luas ini berasal dari kombinasi besaran pokok...",
+                options: [
+                    "A. Massa dikali Waktu",
+                    "B. Panjang dikali Panjang",
+                    "C. Suhu dikali Kuat Arus",
+                    "D. Panjang dikali Massa",
+                    "E. Volume dibagi Tinggi"
+                ],
+                keys: "B",
+                discussion: "Luas (m2) merupakan besaran turunan yang diturunkan dari perkalian dua dimensi besaran pokok Panjang (m x m)."
+            },
+            {
+                id: 20,
+                type: "pg",
+                text: "Saat berada di dalam ruang mesin kapal berventilasi buruk, ABK berisiko mengalami keracunan gas Karbon Monoksida (CO) hasil pembakaran solar tidak sempurna. Gejala pusing dan pingsan terjadi karena...",
+                options: [
+                    "A. Gas CO merusak sel darah merah secara permanen",
+                    "B. Afinitas (daya ikat) Hb darah terhadap CO jauh lebih kuat dibanding terhadap O2, sehingga jaringan tubuh kekurangan oksigen",
+                    "C. Gas CO membekukan cairan darah di dalam pembuluh darah",
+                    "D. Gas CO bereaksi dengan asam lambung menghasilkan racun sianida",
+                    "E. Gas CO menurunkan suhu tubuh ABK hingga di bawah 0°C"
+                ],
+                keys: "B",
+                discussion: "Hemoglobin (Hb) mengikat CO sekitar 200 kali lebih kuat dari O2, menyebabkan ikatan HbCO menghambat pasokan oksigen ke otak dan sel tubuh."
+            },
+
+            // 5 SOAL ESAI HOTS / LITERASI
+            {
+                id: 21,
+                type: "essay",
+                text: "Tim siswa jurusan X. ABPAL SMK Waliwa Laimu sedang meneliti pengaruh suhu air (°C) terhadap laju konsumsi oksigen pada benih ikan. Rancanglah kerangka metode ilmiah pengujian ini yang memuat:\na. Rumusan Masalah yang jelas.\nb. Hipotesis penelitian.\nc. Penentuan Variabel Bebas, Variabel Terikat, dan Variabel Kontrol.\nd. Sebutkan alat ukur yang digunakan beserta besaran pokok/turunan yang diukur!",
+                rubric: "Skor Maksimal 20. Bobot: (a) Rumusan Masalah (4 pt), (b) Hipotesis (4 pt), (c) Identifikasi 3 Variabel (6 pt), (d) Alat Ukur & Besaran (6 pt)."
+            },
+            {
+                id: 22,
+                type: "essay",
+                text: "Seorang teknisi di bengkel SMK Waliwa Laimu mengukur volume minyak pelumas mesin kapal dalam wadah balok dengan mengukur panjang (p = 50 cm), lebar (l = 20 cm), dan tinggi cairan (t = 30 cm) menggunakan mistar baja/jangka sorong.\na. Jelaskan perbedaan antara pengukuran langsung dan tidak langsung berdasarkan kasus tersebut!\nb. Analisis mengapa Volume tergolong BESARAN TURUNAN, dan jelaskan besaran pokok pembentuknya beserta satuan SI-nya!",
+                rubric: "Skor Maksimal 20. Bobot: (a) Analisis Pengukuran Langsung vs Tidak Langsung (10 pt), (b) Penjelasan Besaran Turunan Volume & Satuan SI (10 pt)."
+            },
+            {
+                id: 23,
+                type: "essay",
+                text: "Mesin tempel kapal nelayan di Desa Laimu mengalami gejala knocking (ketukan keras pada silinder) saat menggunakan bensin berkualitas rendah.\na. Jelaskan apa yang dimaksud dengan Angka Oktana dan dampaknya terhadap efisiensi pembakaran mesin!\nb. Jelaskan komposisi senyawa hidrokarbon penyusun bensin Pertalite (Oktan 90) dan Pertamax (Oktan 92) berdasarkan persentase isooktana dan n-heptana!",
+                rubric: "Skor Maksimal 20. Bobot: (a) Pengertian Angka Oktana & Knocking (10 pt), (b) Komposisi Pertalite vs Pertamax (10 pt)."
+            },
+            {
+                id: 24,
+                type: "essay",
+                text: "Minyak mentah (crude oil) yang baru ditambang tidak dapat langsung digunakan sebagai bahan bakar kapal tanpa proses pemisahan.\na. Jelaskan prinsip kerja pemisahan fraksi minyak bumi pada kolom distilasi bertingkat!\nb. Urutkan 4 fraksi hasil distilasi minyak bumi dari yang memiliki titik didih terendah hingga tertinggi, serta sebutkan fungsi/kegunaannya masing-masing!",
+                rubric: "Skor Maksimal 20. Bobot: (a) Prinsip Perbedaan Titik Didih Distilasi (10 pt), (b) Urutan 4 Fraksi & Kegunaan (10 pt)."
+            },
+            {
+                id: 25,
+                type: "essay",
+                text: "Cerobong asap kapal nelayan membebaskan gas Karbon Monoksida (CO) dan Karbon Dioksida (CO2).\na. Bandingkan reaksi kimia pembakaran sempurna dan tidak sempurna pada bahan bakar hidrokarbon!\nb. Analisis bahaya fisiologis gas CO bagi ABK di dalam kapal, serta dampak emisi gas CO2 secara global terhadap ekosistem laut Laimu!",
+                rubric: "Skor Maksimal 20. Bobot: (a) Perbandingan Pembakaran Sempurna vs Tidak Sempurna (10 pt), (b) Dampak CO bagi Tubuh & CO2 bagi Ekosistem Laut (10 pt)."
+            }
+        ];
+
+        let questions = [...DEFAULT_QUESTIONS];
+        let currentQIndex = 0;
+        let studentAnswers = {};
+        let doubtfulState = {};
+        let studentInfo = {};
+        let timerInterval = null;
+        let timeRemaining = 90 * 60;
+        let examConfig = {
+            durationMinutes: 90,
+            showScoreToStudent: true,
+            weightPG: 70,
+            weightEssay: 30,
+            academicYear: "2026/2027"
+        };
+        let masterRecapList = [];
+
+        window.onload = function() {
+            loadConfig();
+            restoreLocalExamState();
+        };
+
+        function loadConfig() {
+            const savedConfig = localStorage.getItem('ipas_exam_config');
+            if (savedConfig) {
+                examConfig = JSON.parse(savedConfig);
+            }
+            const elDurasi = document.getElementById('label-durasi');
+            const elTp = document.getElementById('label-tp');
+            if (elDurasi) elDurasi.innerText = examConfig.durationMinutes;
+            if (elTp) elTp.innerText = examConfig.academicYear;
+
+            document.getElementById('setting-durasi').value = examConfig.durationMinutes;
+            document.getElementById('setting-show-score').value = examConfig.showScoreToStudent.toString();
+            document.getElementById('setting-bobot-pg').value = examConfig.weightPG;
+            document.getElementById('setting-bobot-essay').value = examConfig.weightEssay;
+
+            const savedRecap = localStorage.getItem('ipas_master_recap');
+            if (savedRecap) {
+                masterRecapList = JSON.parse(savedRecap);
+            }
+        }
+
+        function navigateTo(viewId) {
+            const target = document.getElementById(viewId);
+            if (!target) {
+                console.warn("View section not found: " + viewId);
+                return;
+            }
+            document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
+            target.classList.add('active');
+            window.scrollTo(0,0);
+        }
+
+        function saveIdentity() {
+            const nama = document.getElementById('input-nama').value.trim();
+            const kelas = document.getElementById('input-kelas').value;
+            const nomer = document.getElementById('input-nomer').value.trim();
+
+            if (!nama || !kelas || !nomer) {
+                showAlert("Harap lengkapi seluruh kolom identitas peserta!");
+                return;
+            }
+
+            studentInfo = { nama, kelas, nomer, startTime: new Date().toISOString() };
+            localStorage.setItem('ipas_student_info', JSON.stringify(studentInfo));
+            navigateTo('view-instructions');
+        }
+
+        function startExam() {
+            if (!localStorage.getItem('ipas_timer_remaining')) {
+                timeRemaining = examConfig.durationMinutes * 60;
+                localStorage.setItem('ipas_timer_remaining', timeRemaining);
+            } else {
+                timeRemaining = parseInt(localStorage.getItem('ipas_timer_remaining'));
+            }
+
+            document.getElementById('exam-student-name').innerText = studentInfo.nama || "Peserta Ujian";
+            document.getElementById('exam-student-class').innerText = (studentInfo.kelas || "") + " | No: " + (studentInfo.nomer || "");
+
+            startTimer();
+            renderQuestion();
+            navigateTo('view-exam');
+        }
+
+        function startTimer() {
+            clearInterval(timerInterval);
+            updateTimerDisplay();
+
+            timerInterval = setInterval(() => {
+                timeRemaining--;
+                localStorage.setItem('ipas_timer_remaining', timeRemaining);
+                updateTimerDisplay();
+
+                if (timeRemaining <= 0) {
+                    clearInterval(timerInterval);
+                    showAlert("Waktu ujian telah habis! Sistem akan mengumpulkan jawaban Anda secara otomatis.", "Waktu Habis");
+                    submitExamFinal();
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            const m = Math.floor(timeRemaining / 60);
+            const s = timeRemaining % 60;
+            document.getElementById('exam-timer').innerText = `${m < 10 ? '0' : ''}${m}:${s < 10 ? '0' : ''}${s}`;
+        }
+
+        function renderQuestion() {
+            const q = questions[currentQIndex];
+            document.getElementById('q-number-title').innerText = `Soal No. ${currentQIndex + 1} dari ${questions.length}`;
+            document.getElementById('q-type-tag').innerText = q.type === 'pg' ? 'Pilihan Ganda (HOTS)' : 'Esai (HOTS)';
+            document.getElementById('q-text').innerText = q.text;
+
+            const pgContainer = document.getElementById('container-pg');
+            const essayContainer = document.getElementById('container-essay');
+            const btnDoubt = document.getElementById('btn-doubt');
+
+            if (doubtfulState[q.id]) {
+                btnDoubt.style.background = "var(--warning)";
+                btnDoubt.style.color = "white";
+                btnDoubt.innerText = "Ragu-Ragu (Aktif)";
+            } else {
+                btnDoubt.style.background = "#e2e8f0";
+                btnDoubt.style.color = "var(--text-main)";
+                btnDoubt.innerText = "Ragu-Ragu";
+            }
+
+            if (q.type === 'pg') {
+                pgContainer.style.display = 'flex';
+                essayContainer.style.display = 'none';
+                pgContainer.innerHTML = '';
+
+                const selectedOpt = studentAnswers[q.id] || null;
+
+                q.options.forEach((optText) => {
+                    const optKey = optText.charAt(0);
+                    const isSelected = selectedOpt === optKey;
+
+                    const div = document.createElement('div');
+                    div.className = `option-item ${isSelected ? 'selected' : ''}`;
+                    div.onclick = () => selectOption(q.id, optKey);
+                    div.innerHTML = `
+                        <div class="option-key">${optKey}</div>
+                        <div class="option-content">${optText.substring(3)}</div>
+                    `;
+                    pgContainer.appendChild(div);
+                });
+            } else {
+                pgContainer.style.display = 'none';
+                essayContainer.style.display = 'block';
+                document.getElementById('essay-answer-input').value = studentAnswers[q.id] || '';
+            }
+
+            document.getElementById('btn-prev').disabled = currentQIndex === 0;
+            document.getElementById('btn-next').disabled = currentQIndex === questions.length - 1;
+
+            updateAnsweredCount();
+        }
+
+        function selectOption(qId, key) {
+            studentAnswers[qId] = key;
+            saveExamState();
+            renderQuestion();
+        }
+
+        function saveEssayAnswer(val) {
+            const qId = questions[currentQIndex].id;
+            studentAnswers[qId] = val;
+            saveExamState();
+            updateAnsweredCount();
+        }
+
+        function toggleDoubt() {
+            const qId = questions[currentQIndex].id;
+            doubtfulState[qId] = !doubtfulState[qId];
+            saveExamState();
+            renderQuestion();
+        }
+
+        function prevQuestion() {
+            if (currentQIndex > 0) {
+                currentQIndex--;
+                renderQuestion();
+            }
+        }
+
+        function nextQuestion() {
+            if (currentQIndex < questions.length - 1) {
+                currentQIndex++;
+                renderQuestion();
+            }
+        }
+
+        function updateAnsweredCount() {
+            const count = Object.keys(studentAnswers).filter(k => studentAnswers[k] && studentAnswers[k].trim() !== '').length;
+            document.getElementById('answered-count').innerText = count;
+        }
+
+        function saveExamState() {
+            localStorage.setItem('ipas_student_answers', JSON.stringify(studentAnswers));
+            localStorage.setItem('ipas_doubt_state', JSON.stringify(doubtfulState));
+            localStorage.setItem('ipas_current_index', currentQIndex);
+        }
+
+        function restoreLocalExamState() {
+            const savedAnswers = localStorage.getItem('ipas_student_answers');
+            const savedDoubt = localStorage.getItem('ipas_doubt_state');
+            const savedInfo = localStorage.getItem('ipas_student_info');
+            const savedIdx = localStorage.getItem('ipas_current_index');
+
+            if (savedAnswers) studentAnswers = JSON.parse(savedAnswers);
+            if (savedDoubt) doubtfulState = JSON.parse(savedDoubt);
+            if (savedInfo) studentInfo = JSON.parse(savedInfo);
+            if (savedIdx) currentQIndex = parseInt(savedIdx);
+        }
+
+        function openNavGrid() {
+            const container = document.getElementById('grid-buttons-container');
+            container.innerHTML = '';
+
+            questions.forEach((q, idx) => {
+                const btn = document.createElement('div');
+                const isAnswered = studentAnswers[q.id] && studentAnswers[q.id].trim() !== '';
+                const isDoubtful = doubtfulState[q.id];
+                const isCurrent = idx === currentQIndex;
+
+                let stateClass = '';
+                if (isDoubtful) stateClass = 'doubtful';
+                else if (isAnswered) stateClass = 'answered';
+
+                btn.className = `grid-num-btn ${stateClass} ${isCurrent ? 'current' : ''}`;
+                btn.innerText = idx + 1;
+                btn.onclick = () => {
+                    currentQIndex = idx;
+                    closeNavGrid();
+                    renderQuestion();
+                };
+                container.appendChild(btn);
+            });
+
+            document.getElementById('modal-nav-grid').classList.add('active');
+        }
+
+        function closeNavGrid() {
+            document.getElementById('modal-nav-grid').classList.remove('active');
+        }
+
+        function openConfirmSubmit() {
+            const total = questions.length;
+            const answered = Object.keys(studentAnswers).filter(k => studentAnswers[k] && studentAnswers[k].trim() !== '').length;
+            const doubtful = Object.keys(doubtfulState).filter(k => doubtfulState[k]).length;
+            const unanswered = total - answered;
+
+            document.getElementById('summary-answered').innerText = answered;
+            document.getElementById('summary-unanswered').innerText = unanswered;
+            document.getElementById('summary-doubtful').innerText = doubtful;
+
+            const alertWarning = document.getElementById('alert-unanswered-warning');
+            if (unanswered > 0) {
+                alertWarning.style.display = 'block';
+            } else {
+                alertWarning.style.display = 'none';
+            }
+
+            navigateTo('view-confirm');
+        }
+
+        function submitExamFinal() {
+            clearInterval(timerInterval);
+
+            let pgCorrect = 0;
+            let pgTotal = 0;
+
+            questions.forEach(q => {
+                if (q.type === 'pg') {
+                    pgTotal++;
+                    if (studentAnswers[q.id] === q.keys) {
+                        pgCorrect++;
+                    }
+                }
+            });
+
+            const pgScore = pgTotal > 0 ? (pgCorrect / pgTotal) * 100 : 0;
+
+            const examResult = {
+                studentInfo: studentInfo,
+                answers: studentAnswers,
+                submittedAt: new Date().toLocaleString('id-ID'),
+                pgCorrect: pgCorrect,
+                pgTotal: pgTotal,
+                pgScore: pgScore,
+                essayGraded: false,
+                essayScore: 0,
+                finalScore: null
+            };
+
+            localStorage.setItem('ipas_completed_result', JSON.stringify(examResult));
+
+            document.getElementById('res-nama').innerText = studentInfo.nama || "-";
+            document.getElementById('res-kelas-no').innerText = `${studentInfo.kelas || "-"} / ${studentInfo.nomer || "-"}`;
+            document.getElementById('res-waktu').innerText = examResult.submittedAt;
+
+            const scoreBox = document.getElementById('score-display-box');
+            if (examConfig.showScoreToStudent) {
+                scoreBox.innerHTML = `
+                    <div style="font-size: 12px; color: var(--text-muted);">Skor Pilihan Ganda Anda</div>
+                    <div style="font-size: 32px; font-weight: 800; color: var(--primary);">${pgScore.toFixed(1)}</div>
+                    <div style="font-size: 11px; color: var(--accent);">Jawaban Benar: ${pgCorrect} dari ${pgTotal} soal</div>
+                `;
+            } else {
+                scoreBox.innerHTML = `
+                    <div style="font-size: 14px; font-weight: 600; color: var(--primary);">Jawaban Berhasil Tersimpan</div>
+                    <div style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">Nilai disembunyikan sesuai kebijakan penguji.</div>
+                `;
+            }
+
+            navigateTo('view-result');
+        }
+
+        function openProfile() {
+            navigateTo('view-profile');
+        }
+
+        function openStudentHistory() {
+            const savedResult = localStorage.getItem('ipas_completed_result');
+            const container = document.getElementById('student-history-content');
+
+            if (!savedResult) {
+                container.innerHTML = `
+                    <div class="alert alert-warning" style="text-align: center; margin-bottom: 0;">
+                        <strong>Belum ada riwayat pengerjaan!</strong><br>
+                        Anda belum menyelesaikan Asesmen Sumatif IPAS pada browser ini. Silakan klik menu <strong>"Mulai Ujian"</strong> di beranda.
+                    </div>
+                `;
+            } else {
+                const res = JSON.parse(savedResult);
+                const info = res.studentInfo || {};
+                
+                container.innerHTML = `
+                    <div style="background: #f8fafc; padding: 14px; border-radius: var(--radius-sm); border: 1px solid var(--border-color); margin-bottom: 16px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                            <span style="font-weight: 700; color: var(--primary-dark); font-size: 15px;">${info.nama || 'Peserta'}</span>
+                            <span class="badge-offline" style="background: var(--accent);">TERKUMPUL</span>
+                        </div>
+                        <table class="info-table" style="margin-bottom: 8px; font-size: 12px;">
+                            <tr><td>Kelas / Nomor</td><td>${info.kelas || '-'} (${info.nomer || '-'})</td></tr>
+                            <tr><td>Waktu Pengumpulan</td><td>${res.submittedAt || '-'}</td></tr>
+                            <tr><td>Skor Pilihan Ganda</td><td><strong style="color: var(--primary); font-size: 15px;">${res.pgScore ? res.pgScore.toFixed(1) : '0'}</strong> (${res.pgCorrect || 0}/${res.pgTotal || 20} Benar)</td></tr>
+                            <tr><td>Status Koreksi Esai</td><td>${res.essayGraded ? 'Sudah Dikoreksi (' + res.essayScore.toFixed(1) + ')' : 'Menunggu Pemeriksaan Guru'}</td></tr>
+                            ${res.finalScore !== null ? `<tr><td>Nilai Akhir Total</td><td><strong style="color: var(--accent); font-size: 16px;">${res.finalScore.toFixed(2)}</strong></td></tr>` : ''}
+                        </table>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 8px;">
+                        <button class="btn btn-primary" onclick="openCertificateView()">LIHAT & UNDUH SERTIFIKAT</button>
+                        <button class="btn btn-outline" onclick="downloadResultFile()">UNDUH BERKAS JAWABAN (.JSON)</button>
+                    </div>
+                `;
+            }
+
+            navigateTo('view-student-history');
+        }
+
+        function openCertificateView() {
+            const savedResult = localStorage.getItem('ipas_completed_result');
+            const wrapper = document.getElementById('certificate-wrapper');
+
+            if (!savedResult) {
+                showAlert("Anda harus menyelesaikan ujian terlebih dahulu sebelum dapat mengakses dan mengunduh Sertifikat!", "Sertifikat Belum Tersedia");
+                return;
+            }
+
+            const res = JSON.parse(savedResult);
+            const info = res.studentInfo || {};
+            const score = res.pgScore || 0;
+            
+            let predicate = "BAIK";
+            if (score >= 85) predicate = "SANGAT BAIK";
+            else if (score >= 70) predicate = "CUKUP BAIK";
+            else predicate = "PERLU TINGKATKAN";
+
+            wrapper.innerHTML = `
+                <div class="certificate-box">
+                    <div class="cert-seal">🏅</div>
+                    <div class="cert-header">
+                        <div style="font-size: 11px; font-weight: 700; color: var(--primary); letter-spacing: 1px;">SMK WALIWA LAIMU - AMBON / MALUKU</div>
+                        <h2>SERTIFIKAT KELULUSAN ASESMEN</h2>
+                        <div style="font-size: 12px; color: var(--text-muted); font-weight: 600;">Projek IPAS (Ilmu Pengetahuan Alam dan Sosial)</div>
+                    </div>
+
+                    <div style="margin: 16px 0 8px 0; font-size: 12px; color: var(--text-muted);">Diberikan Kepada Peserta Didik:</div>
+                    <div class="cert-recipient">${info.nama || 'Peserta Didik'}</div>
+                    <div style="font-size: 13px; font-weight: 600; color: var(--text-main);">Kelas: ${info.kelas || 'X'} | No. Peserta: ${info.nomer || '-'}</div>
+
+                    <p style="font-size: 12px; color: var(--text-main); margin: 16px auto; max-width: 480px; line-height: 1.5;">
+                        Telah menyelesaikan Asesmen Sumatif IPAS berbasis komputer offline pada materi <em>Hidrokarbon, Minyak Bumi, Pengukuran & Metode Ilmiah</em> dengan hasil evaluasi sebagai berikut:
+                    </p>
+
+                    <div class="cert-score-badge">
+                        Skor PG: ${score.toFixed(1)} / 100 (${predicate})
+                    </div>
+
+                    <div class="cert-signature-area">
+                        <div style="text-align: left;">
+                            <div style="font-size: 9px; color: var(--text-muted);">VERIFIKASI SISTEM</div>
+                            <div style="font-weight: 700; color: var(--accent);">VALIDATED OFFLINE</div>
+                            <div style="font-size: 9px; color: var(--text-muted);">${res.submittedAt || ''}</div>
+                        </div>
+
+                        <div style="text-align: right;">
+                            <div style="margin-bottom: 30px;">
+                                Laimu, ${new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}
+                            </div>
+                            <div style="font-weight: 700; text-decoration: underline; color: var(--primary-dark);">Muh. Kasim Wattimena, S.Pd.</div>
+                            <div style="font-size: 10px; color: var(--text-muted);">Guru Pengampu IPAS</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            navigateTo('view-certificate');
+        }
+
+        function downloadCertificateImage() {
+            const certElement = document.querySelector('.certificate-box');
+            if (!certElement) {
+                showAlert("Sertifikat belum tersedia untuk diunduh!");
+                return;
+            }
+
+            const savedResult = localStorage.getItem('ipas_completed_result');
+            let studentName = "PESERTA";
+            if (savedResult) {
+                const res = JSON.parse(savedResult);
+                if (res.studentInfo && res.studentInfo.nama) {
+                    studentName = res.studentInfo.nama.trim().replace(/\s+/g, '_');
+                }
+            }
+
+            if (typeof html2canvas !== 'undefined') {
+                html2canvas(certElement, { scale: 2, useCORS: true, backgroundColor: '#ffffff' }).then(canvas => {
+                    const link = document.createElement('a');
+                    link.download = `SERTIFIKAT_IPAS_${studentName}.png`;
+                    link.href = canvas.toDataURL('image/png');
+                    link.click();
+                }).catch(err => {
+                    console.error("Gagal mengunduh gambar sertifikat:", err);
+                    window.print();
+                });
+            } else {
+                // Fallback jika html2canvas tidak dimuat
+                window.print();
+            }
+        }
+
+        function downloadResultFile() {
+            const resultData = localStorage.getItem('ipas_completed_result');
+            if (!resultData) {
+                showAlert("Data hasil ujian tidak ditemukan!");
+                return;
+            }
+
+            const dataObj = JSON.parse(resultData);
+            const fileName = `HASIL_IPAS_${(dataObj.studentInfo.kelas || 'X').replace(/\s+/g, '_')}_${(dataObj.studentInfo.nama || 'SISWA').replace(/\s+/g, '_')}.json`;
+            
+            const blob = new Blob([resultData], { type: 'application/json' });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = fileName;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+
+        function openPinModal() {
+            document.getElementById('custom-pin-input').value = '';
+            document.getElementById('custom-pin-modal').classList.add('active');
+        }
+
+        function closePinModal() {
+            document.getElementById('custom-pin-modal').classList.remove('active');
+        }
+
+        function submitPinModal() {
+            const pass = document.getElementById('custom-pin-input').value.trim();
+            closePinModal();
+            if (pass === "guru123" || pass === "kasim" || pass === "1234") {
+                navigateTo('view-admin');
+                renderRecapTable();
+                populateGradingStudentSelect();
+            } else {
+                showAlert("PIN Salah! Akses ditolak.", "Akses Ditolak");
+            }
+        }
+
+        function switchAdminTab(tabId, btnEl) {
+            document.querySelectorAll('.admin-subtab').forEach(el => el.style.display = 'none');
+            document.querySelectorAll('.admin-tab').forEach(el => el.classList.remove('active'));
+            
+            document.getElementById(tabId).style.display = 'block';
+            btnEl.classList.add('active');
+        }
+
+        function saveAdminSettings() {
+            examConfig.durationMinutes = parseInt(document.getElementById('setting-durasi').value) || 90;
+            examConfig.showScoreToStudent = document.getElementById('setting-show-score').value === "true";
+            examConfig.weightPG = parseInt(document.getElementById('setting-bobot-pg').value) || 70;
+            examConfig.weightEssay = parseInt(document.getElementById('setting-bobot-essay').value) || 30;
+
+            localStorage.setItem('ipas_exam_config', JSON.stringify(examConfig));
+            showAlert("Pengaturan parameter ujian berhasil disimpan!");
+        }
+
+        function importStudentFiles() {
+            const fileInput = document.getElementById('input-file-import');
+            const files = fileInput.files;
+
+            if (files.length === 0) {
+                showAlert("Pilih minimal satu berkas .json hasil jawaban siswa!");
+                return;
+            }
+
+            let loadedCount = 0;
+
+            Array.from(files).forEach(file => {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    try {
+                        const parsed = JSON.parse(e.target.result);
+                        if (parsed.studentInfo && parsed.answers) {
+                            const existingIndex = masterRecapList.findIndex(item => item.studentInfo.nomer === parsed.studentInfo.nomer);
+                            if (existingIndex >= 0) {
+                                masterRecapList[existingIndex] = parsed;
+                            } else {
+                                masterRecapList.push(parsed);
+                            }
+                            loadedCount++;
+                        }
+                    } catch (err) {
+                        console.error("Gagal membaca file: " + file.name);
+                    }
+
+                    if (loadedCount > 0) {
+                        localStorage.setItem('ipas_master_recap', JSON.stringify(masterRecapList));
+                        renderRecapTable();
+                        populateGradingStudentSelect();
+                    }
+                };
+                reader.readAsText(file);
+            });
+
+            showAlert(`${files.length} berkas berhasil diproses untuk diimpor!`);
+            fileInput.value = '';
+        }
+
+        function renderRecapTable() {
+            const tbody = document.getElementById('tbody-recap');
+            tbody.innerHTML = '';
+
+            if (masterRecapList.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align: center;">Belum ada data siswa diimpor.</td></tr>';
+                return;
+            }
+
+            masterRecapList.forEach((item, idx) => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><strong>${item.studentInfo.nama}</strong></td>
+                    <td>${item.studentInfo.kelas} (${item.studentInfo.nomer})</td>
+                    <td>${item.pgCorrect}/${item.pgTotal}</td>
+                    <td>${item.pgScore.toFixed(1)}</td>
+                    <td>${item.essayGraded ? item.essayScore.toFixed(1) : 'Belum'}</td>
+                    <td><button class="btn btn-danger" style="padding: 2px 6px; font-size: 10px;" onclick="deleteRecapItem(${idx})">Hapus</button></td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function deleteRecapItem(idx) {
+            masterRecapList.splice(idx, 1);
+            localStorage.setItem('ipas_master_recap', JSON.stringify(masterRecapList));
+            renderRecapTable();
+            populateGradingStudentSelect();
+            showAlert("Data siswa berhasil dihapus dari rekap lokal.");
+        }
+
+        function populateGradingStudentSelect() {
+            const sel = document.getElementById('select-grading-student');
+            sel.innerHTML = '<option value="">-- Pilih Siswa --</option>';
+
+            masterRecapList.forEach((item, idx) => {
+                const opt = document.createElement('option');
+                opt.value = idx;
+                opt.innerText = `${item.studentInfo.nama} - ${item.studentInfo.kelas} (${item.essayGraded ? 'Sudah Dikoreksi' : 'Belum Dikoreksi'})`;
+                sel.appendChild(opt);
+            });
+        }
+
+        function loadStudentEssayForGrading() {
+            const idx = document.getElementById('select-grading-student').value;
+            const container = document.getElementById('grading-workspace');
+
+            if (idx === "") {
+                container.style.display = "none";
+                return;
+            }
+
+            const item = masterRecapList[idx];
+            container.style.display = "block";
+            container.innerHTML = `
+                <div style="background: #f8fafc; padding: 12px; border-radius: 8px; margin-bottom: 12px; border: 1px solid var(--border-color);">
+                    <strong>Nama:</strong> ${item.studentInfo.nama} | <strong>Kelas:</strong> ${item.studentInfo.kelas}<br>
+                    <strong>Nilai PG:</strong> ${item.pgScore.toFixed(1)} (Bobot ${examConfig.weightPG}%)
+                </div>
+            `;
+
+            const essayQuestions = questions.filter(q => q.type === 'essay');
+
+            essayQuestions.forEach((q, qIdx) => {
+                const studentAns = item.answers[q.id] || "(Tidak dijawab)";
+                const existingScore = item.essayScores ? (item.essayScores[q.id] || 0) : 0;
+
+                const div = document.createElement('div');
+                div.style.cssText = "background: #fff; border: 1px solid var(--border-color); padding: 12px; border-radius: 8px; margin-bottom: 12px;";
+                div.innerHTML = `
+                    <div style="font-weight: 700; color: var(--primary); font-size: 13px; margin-bottom: 4px;">Esai No. ${qIdx + 1}: ${q.text}</div>
+                    <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 8px;">Pedoman/Rubrik: ${q.rubric}</div>
+                    <div style="background: #f1f5f9; padding: 10px; border-radius: 6px; font-size: 13px; margin-bottom: 8px; white-space: pre-wrap;">${studentAns}</div>
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label>Skor Esai Soal ini (0 - 20):</label>
+                        <input type="number" min="0" max="20" class="form-control essay-single-score" data-qid="${q.id}" value="${existingScore}">
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+
+            const btnSave = document.createElement('button');
+            btnSave.className = "btn btn-success";
+            btnSave.innerText = "Simpan Penilaian Esai Siswa";
+            btnSave.onclick = () => saveStudentEssayGrading(idx);
+            container.appendChild(btnSave);
+        }
+
+        function saveStudentEssayGrading(studentIdx) {
+            const item = masterRecapList[studentIdx];
+            const inputs = document.querySelectorAll('.essay-single-score');
+
+            let totalEssayPoint = 0;
+            item.essayScores = {};
+
+            inputs.forEach(input => {
+                const qId = input.getAttribute('data-qid');
+                const val = parseFloat(input.value) || 0;
+                item.essayScores[qId] = val;
+                totalEssayPoint += val;
+            });
+
+            item.essayScore = totalEssayPoint;
+            item.essayGraded = true;
+
+            const pgPart = (item.pgScore * examConfig.weightPG) / 100;
+            const essayPart = (item.essayScore * examConfig.weightEssay) / 100;
+            item.finalScore = pgPart + essayPart;
+
+            masterRecapList[studentIdx] = item;
+            localStorage.setItem('ipas_master_recap', JSON.stringify(masterRecapList));
+
+            showAlert("Penilaian Esai Berhasil Disimpan! Nilai Akhir Terkalkulasi.", "Penilaian Berhasil");
+            renderRecapTable();
+            populateGradingStudentSelect();
+        }
+
+        function exportMasterRecapCSV() {
+            if (masterRecapList.length === 0) {
+                showAlert("Belum ada data rekap untuk diekspor!");
+                return;
+            }
+
+            let csv = "Nama,Kelas,Nomor Peserta,Jawaban PG Benar,Nilai PG,Nilai Esai,Nilai Akhir\n";
+
+            masterRecapList.forEach(item => {
+                const finalStr = item.finalScore !== null ? item.finalScore.toFixed(2) : "Belum Dikoreksi";
+                csv += `"${item.studentInfo.nama}","${item.studentInfo.kelas}","${item.studentInfo.nomer}",${item.pgCorrect},${item.pgScore.toFixed(2)},${item.essayScore.toFixed(2)},${finalStr}\n`;
+            });
+
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = `REKAP_NILAI_IPAS_KELAS_X_SMK_WALIWA_LAIMU.csv`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+
+        function showAlert(msg, title = "Pemberitahuan") {
+            document.getElementById('custom-alert-title').innerText = title;
+            document.getElementById('custom-alert-msg').innerText = msg;
+            document.getElementById('custom-alert-modal').classList.add('active');
+        }
+
+        function closeCustomAlert() {
+            document.getElementById('custom-alert-modal').classList.remove('active');
+        }
+    </script>
+</body>
+</html>
